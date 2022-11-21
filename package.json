@@ -2,6 +2,7 @@
   "name": "stations-project-users",
   "version": "1.0.0-alpha.0",
   "description": "Manages and authenticates users",
+  "type": "module",
   "main": "index.js",
   "bin": {
 	  "users": "./index.js"
