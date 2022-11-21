@@ -1,0 +1,25 @@
+{
+  "name": "stations-project-users",
+  "version": "1.0.0-alpha.0",
+  "description": "Manages and authenticates users",
+  "main": "index.js",
+  "bin": {
+	  "users": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marlon-erler/stations-project-users.git"
+  },
+  "author": "a035",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marlon-erler/stations-project-users/issues"
+  },
+  "homepage": "https://github.com/marlon-erler/stations-project-users#readme",
+  "dependencies": {
+    "@types/node": "^18.11.9"
+  }
+}
