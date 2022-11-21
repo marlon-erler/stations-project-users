@@ -39,7 +39,7 @@ switch (subcommand) {
 		}
 	}
 
-		//manage
+	//manage
 	case "add": {
 		let dispname = process.argv[3];
 		let password = process.argv[4];
@@ -87,6 +87,32 @@ switch (subcommand) {
 			let correct = Bcrypt.compareSync(password, password_hash);
 
 			console.log(correct == true ? 2 : 0);
+			process.exit(0);
+		} catch {
+			console.log("e2");
+			process.exit();
+		}
+	}
+	case "rm": {
+		let number = process.argv[3];
+		let dirname = `a${number}`;
+
+		try {
+			let contents = await Fs.readdir(dirname);
+
+			let i = 0;
+			let error_count = 0;
+			while (i < contents.length) {
+				try {
+					await Fs.rm(Path.join(dirname, contents[i]), { recursive: true });
+				} catch {
+					error_count++;
+				} finally {
+					i++;
+				}
+			}
+
+			console.log("deleted %i of %i objects.", contents.length - error_count, contents.length);
 			process.exit(0);
 		} catch {
 			console.log("e2");
