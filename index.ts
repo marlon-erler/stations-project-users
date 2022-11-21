@@ -26,7 +26,7 @@ switch (subcommand) {
 
 	case "add": {
 		let dispname = process.argv[3];
-		let pswd = process.argv[4];
+		let password = process.argv[4];
 
 		let station;
 		//wait for number
@@ -42,7 +42,7 @@ switch (subcommand) {
 				Fs.mkdir(dirname);
 				//hash password
 				console.log("hashing password...");
-				let password_hash = hash(pswd ?? "0000");
+				let password_hash = hash(password ?? "0000");
 
 				//store data
 				console.log("storing password...");
@@ -60,6 +60,19 @@ switch (subcommand) {
 		});
 		//ask for number
 		process.stdout.write("@info number");
+		break;
+	}
+
+	case "auth": {
+		let number = process.argv[3];
+		let password = process.argv[4];
+
+		//get hash
+		let password_hash = await Fs.readFile(Path.join(`a${number}`, "password"), { encoding: "utf8" });
+
+		let correct = Bcrypt.compareSync(password, password_hash);
+
+		console.log(correct == true ? 2 : 0);
 		break;
 	}
 
