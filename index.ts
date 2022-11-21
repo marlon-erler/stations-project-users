@@ -1,7 +1,9 @@
 #! /usr/bin/env node
 
-process.stdin.setEncoding("utf8");
-process.stdin.on("data", data => {
-	console.log(data);
-});
-console.log("@exec ls");
+let subcommand = process.argv.splice(0, 1)[0];
+
+switch (subcommand) {
+	default: {
+		process.stdout.write("e3");
+	}
+}
