@@ -18,20 +18,35 @@ if (subcommand == "init") {
 //main
 process.chdir(dir);
 switch (subcommand) {
+		//info
 	case "ls": {
 		let contents = await Fs.readdir(".");
 		console.log(contents.join("\n"));
 		break;
 	}
+	case "getdispname": {
+		let number = process.argv[3];
+		let dirname = `a${number}`;
 
+		try {
+			let dispname = await Fs.readFile(Path.join(dirname, "dispname"), { encoding: "utf8" });
+
+			console.log(dispname);
+			process.exit(0);
+		} catch {
+			console.log("e2");
+			process.exit();
+		}
+	}
+
+		//manage
 	case "add": {
 		let dispname = process.argv[3];
 		let password = process.argv[4];
 
-		let station;
 		//wait for number
 		process.stdin.once("data", async data => {
-			station = data.toString();
+			let station = data.toString();
 			let number = await generateNumber(station, dispname)
 			console.log("number: '%s'", number);
 			let dirname = `a${number}`;
@@ -62,18 +77,21 @@ switch (subcommand) {
 		process.stdout.write("@info number");
 		break;
 	}
-
 	case "auth": {
 		let number = process.argv[3];
 		let password = process.argv[4];
 
-		//get hash
-		let password_hash = await Fs.readFile(Path.join(`a${number}`, "password"), { encoding: "utf8" });
+		try {
+			//get hash
+			let password_hash = await Fs.readFile(Path.join(`a${number}`, "password"), { encoding: "utf8" });
+			let correct = Bcrypt.compareSync(password, password_hash);
 
-		let correct = Bcrypt.compareSync(password, password_hash);
-
-		console.log(correct == true ? 2 : 0);
-		break;
+			console.log(correct == true ? 2 : 0);
+			process.exit(0);
+		} catch {
+			console.log("e2");
+			process.exit();
+		}
 	}
 
 	default: {
@@ -120,10 +138,10 @@ async function generateNumber(station: string, username: string): Promise<string
 	//get first four letters or numbers
 	let number = station + "0";
 	let letters = username
-		.padEnd(4, "1")
-		.split("")
-		.filter(x => /[0-9a-zA-Z]/.test(x) == true)
-		.splice(0, 4);
+	.padEnd(4, "1")
+	.split("")
+	.filter(x => /[0-9a-zA-Z]/.test(x) == true)
+	.splice(0, 4);
 	;
 
 	//convert to number 
@@ -138,8 +156,8 @@ async function generateNumber(station: string, username: string): Promise<string
 	//get existing numbers
 	let usernames = await Fs.readdir(".");
 	let matches = usernames
-		.filter(async (x: string)  => (await Fs.stat(x)).isDirectory() == true)
-		.filter(x => x.includes(number))
+	.filter(async (x: string)  => (await Fs.stat(x)).isDirectory() == true)
+	.filter(x => x.includes(number))
 	;
 	let match_count;
 
