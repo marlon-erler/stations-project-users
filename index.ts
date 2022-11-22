@@ -39,7 +39,7 @@ switch (subcommand) {
 		}
 	}
 
-	//manage
+		//manage
 	case "add": {
 		let dispname = process.argv[3];
 		let password = process.argv[4];
@@ -66,12 +66,11 @@ switch (subcommand) {
 				await Fs.writeFile(Path.join(dirname, "dispname"), dispname);
 
 				console.log("ok");
+				process.exit(0);
 			} catch {
 				console.log("e2");
 				process.exit();
 			}
-
-			process.exit(0);
 		});
 		//ask for number
 		process.stdout.write("@info number");
@@ -87,6 +86,22 @@ switch (subcommand) {
 			let correct = Bcrypt.compareSync(password, password_hash);
 
 			console.log(correct == true ? 2 : 0);
+			process.exit(0);
+		} catch {
+			console.log("e2");
+			process.exit();
+		}
+	}
+	case "changepswd": {
+		let number = process.argv[3];
+		let password = process.argv[4];
+		let dirname = `a${number}`;
+
+		try {
+			let password_hash = hash(password);
+			await Fs.writeFile(Path.join(dirname, "password"), password_hash);
+
+			console.log("ok");
 			process.exit(0);
 		} catch {
 			console.log("e2");

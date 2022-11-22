@@ -1,5 +1,5 @@
 {
-  "name": "stations-project-users",
+  "name": "@stations-project/users",
   "version": "1.0.0-alpha.1",
   "description": "Manages and authenticates users",
   "type": "module",
