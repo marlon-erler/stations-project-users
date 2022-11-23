@@ -1,6 +1,6 @@
 {
   "name": "@stations-project/users",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.3",
   "description": "Manages and authenticates users",
   "type": "module",
   "main": "index.js",

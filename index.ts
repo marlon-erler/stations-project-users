@@ -7,12 +7,13 @@ import Path from "path";
 
 //MAIN
 let dir = "Users";
-let subcommand = process.argv[2];
+let user_number = process.argv[2];
+let subcommand = process.argv[3];
 
-//repair
+//safety
 if (subcommand == "init") {
 	Fs.mkdir(dir);
-	process.exit();
+	process.exit(0);
 }
 
 //main
@@ -41,8 +42,8 @@ switch (subcommand) {
 
 		//manage
 	case "add": {
-		let dispname = process.argv[3];
-		let password = process.argv[4];
+		let dispname = process.argv[4];
+		let password = process.argv[5];
 
 		//wait for number
 		process.stdin.once("data", async data => {
@@ -77,8 +78,8 @@ switch (subcommand) {
 		break;
 	}
 	case "auth": {
-		let number = process.argv[3];
-		let password = process.argv[4];
+		let number = process.argv[4];
+		let password = process.argv[5];
 
 		try {
 			//get hash
@@ -93,8 +94,8 @@ switch (subcommand) {
 		}
 	}
 	case "changepswd": {
-		let number = process.argv[3];
-		let password = process.argv[4];
+		let number = process.argv[4];
+		let password = process.argv[5];
 		let dirname = `a${number}`;
 
 		try {
@@ -109,7 +110,7 @@ switch (subcommand) {
 		}
 	}
 	case "rm": {
-		let number = process.argv[3];
+		let number = process.argv[4];
 		let dirname = `a${number}`;
 
 		try {
@@ -137,6 +138,7 @@ switch (subcommand) {
 
 	default: {
 		console.log("e3");
+		process.exit();
 	}
 }
 
