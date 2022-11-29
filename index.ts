@@ -45,7 +45,7 @@ switch (subcommand) {
 		let dispname = process.argv[4];
 		let password = process.argv[5];
 
-		//wait for number
+		//wait for station number
 		process.stdin.once("data", async data => {
 			let station = data.toString();
 			let number = await generateNumber(station, dispname)
@@ -73,7 +73,7 @@ switch (subcommand) {
 				process.exit();
 			}
 		});
-		//ask for number
+		//ask for station number
 		process.stdout.write("@info number");
 		break;
 	}
@@ -136,6 +136,22 @@ switch (subcommand) {
 		}
 	}
 
+		//utility
+	case "gennum": {
+		let dispname = process.argv[4];
+		//wait for number
+		process.stdin.once("data", async data => {
+			let station = data.toString();
+			let number = await generateNumber(station, dispname);
+
+			console.log(number);
+			process.exit(0);
+		});
+		//ask for station number
+		process.stdout.write("@info number");
+		break;
+	}
+
 	default: {
 		console.log("e3");
 		process.exit();
@@ -177,10 +193,10 @@ function getT9Key(letter: string): string {
 	}
 }
 
-async function generateNumber(station: string, username: string): Promise<string> {
+async function generateNumber(station: string, dispname: string): Promise<string> {
 	//get first four letters or numbers
 	let number = station + "0";
-	let letters = username
+	let letters = dispname
 	.padEnd(4, "1")
 	.split("")
 	.filter(x => /[0-9a-zA-Z]/.test(x) == true)
@@ -197,8 +213,8 @@ async function generateNumber(station: string, username: string): Promise<string
 	}
 
 	//get existing numbers
-	let usernames = await Fs.readdir(".");
-	let matches = usernames
+	let dispnames = await Fs.readdir(".");
+	let matches = dispnames
 	.filter(async (x: string)  => (await Fs.stat(x)).isDirectory() == true)
 	.filter(x => x.includes(number))
 	;
